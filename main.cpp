@@ -1,6 +1,6 @@
 // Winter'24
 // Instructor: Diba Mirza
-// Student name: 
+// Student name: Yifei Zheng
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -79,7 +79,26 @@ int main(int argc, char** argv){
     return 0;
 }
 
-/* Add your run time analysis for part 3 of the assignment here as commented block*/
+/* 
+Part 3: Time and Space Complexity Analysis
+
+Let n = number of movies, m = number of prefixes, k = number of movies matching a given prefix.
+
+Time Complexity:
+- For each prefix, I scan all n movies to check prefix match: O(n)
+- For each prefix, collecting matching movies takes O(k), finding the highest rating takes O(k)
+- Therefore, per prefix: O(n + k + k) = O(n)
+- For m prefixes: O(m * n)
+
+Space Complexity:
+- I use a temporary vector to store matching movies: O(k) <= O(n)
+- Other variables use O(1)
+- Overall space complexity: O(n)
+
+Optimized approach (without temporary vector):
+- Keep only the current best movie while scanning: O(1) extra space
+- Time complexity remains O(m * n)
+*/
 
 bool parseLine(string &line, string &movieName, double &movieRating) {
     int commaIndex = line.find_last_of(",");
