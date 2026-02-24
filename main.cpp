@@ -89,7 +89,6 @@ int main(int argc, char** argv){
                 << m.second << endl;
         }
 
-        cout << endl;
     }
     //cout << "No movies found with prefix "<<"<replace with prefix>" << endl;
 
