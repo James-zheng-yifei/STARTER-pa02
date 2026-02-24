@@ -116,12 +116,21 @@ int main(int argc, char** argv){
 /* 
 Part 3: Time and Space Complexity Analysis
 
-n = number of movies, m = number of prefixes, k = number of movies matching a given prefix, l = the maximum number of characters in a movie name.
+Algorithm design: Used lower_bound to find the start of the prefix range and scanned the interval to get matching movies.
 
-I used binary search, which means the time complexity is O(logn).
-For the movies that fit the prefixes, the time complexity is O(k*min(m, l)). The worst case occurs as n = k and m = l, and the time complexity is O(n*l);
-Since I only use three variables with constant spaces, the space complexity is O(1).
-The tradeoff: if I am going to achieve low space xomplexity, I have to give up time complexity. 
+getPrefixMovies:
+
+Time: O(log n + k log k) — binary search for start (O(log n)) + sorting k matching movies (O(k log k))
+
+Space: O(k) — it stores matching movies in a temporary vector
+
+getBestMovieWithPrefix:
+
+Time: O(log n + k) — binary search + scanning k matching movies to find max rating
+
+Space: O(1) — no extra storage needed
+
+Tradeoff: Optimizing for low time complexity requires sorting and storing matching movies, which increases space usage. If only the best movie is needed, space remains minimal.
 
 */
 
