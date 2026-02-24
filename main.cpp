@@ -79,10 +79,10 @@ int main(int argc, char** argv){
 
         if(matched.empty()) {
             cout << "No movies found with prefix "
-                << prefix << endl;
+                << prefix;
         }
 
-        for(const auto &m : matched) {
+        else for(const auto &m : matched) {
             cout << m.first << ", "
                 << fixed << setprecision(1)
                 << m.second << endl;
