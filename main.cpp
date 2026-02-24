@@ -80,7 +80,6 @@ int main(int argc, char** argv){
         if(matched.empty()) {
             cout << "No movies found with prefix "
                 << prefix << endl;
-            continue;
         }
 
         for(const auto &m : matched) {
@@ -88,6 +87,7 @@ int main(int argc, char** argv){
                 << fixed << setprecision(1)
                 << m.second << endl;
         }
+        cout << '\n';
 
     }
     //cout << "No movies found with prefix "<<"<replace with prefix>" << endl;
