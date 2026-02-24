@@ -20,29 +20,61 @@ void Movies::printMoviesInOrder() const {
     }
 }
 
+pair<vector<pair<string,double>>::const_iterator, vector<pair<string,double>>::const_iterator>
+Movies::getPrefixRange(const string& prefix) const {
 
-void Movies::printTheBestMoviesWithPrefix(const string &prefix) const {
-    auto it = lower_bound(
-    movies.begin(),
-    movies.end(),
-    prefix,
-    [](const pair<string,double>& movie, const string& pref){
-        return movie.first < pref;
-    });
-    if(it == movies.end() || !(it->first.starts_with(prefix))) {
-        cout << "No movies found with prefix " << prefix << endl;
-        return;
+    auto start = lower_bound(
+        movies.begin(), movies.end(), prefix,
+        [](const pair<string,double>& movie, const string& pref){
+            return movie.first < pref;
+        });
+
+    if(start == movies.end() || !start->first.starts_with(prefix)) {
+        return {movies.end(), movies.end()};
     }
-    const double* best = &(it->second);
-    const string* bestName = &(it->first);
-    while(it != movies.end() && it->first.starts_with(prefix)) {
-        cout << it->first << ", " << fixed << setprecision(1) << it->second << endl;
-        if(it->second > *best) {
-            best = &(it->second);
-            bestName = &(it->first);
-        }
-        it++;
+
+    auto end = start;
+    while(end != movies.end() && end->first.starts_with(prefix)) {
+        ++end;
     }
-    cout << '\n';
-    cout << "Best movie with prefix " << prefix << " is: " << *bestName << " with rating " << *best;
+
+    return {start, end};
+}
+
+vector<pair<string,double>>
+Movies::getPrefixMovies(const string& prefix) const {
+
+    auto [start, end] = getPrefixRange(prefix);
+
+    if(start == movies.end()) {
+        return {};
+    }
+
+    vector<pair<string,double>> matched(start, end);
+
+    sort(matched.begin(), matched.end(),
+         [](const pair<string,double>& a,
+            const pair<string,double>& b){
+             return a.second > b.second;
+         });
+
+    return matched;
+}
+
+optional<pair<string,double>>
+Movies::getBestMovieWithPrefix(const string& prefix) const {
+
+    auto [start, end] = getPrefixRange(prefix);
+
+    if(start == movies.end()) {
+        return nullopt;
+    }
+
+    auto best = max_element(start, end,
+        [](const pair<string,double>& a,
+           const pair<string,double>& b){
+            return a.second < b.second;
+        });
+
+    return *best;
 }
