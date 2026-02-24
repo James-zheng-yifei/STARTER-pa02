@@ -79,7 +79,7 @@ int main(int argc, char** argv){
 
         if(matched.empty()) {
             cout << "No movies found with prefix "
-                << prefix << endl << endl;
+                << prefix << endl;
             continue;
         }
 
