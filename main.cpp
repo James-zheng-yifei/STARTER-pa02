@@ -52,6 +52,7 @@ int main(int argc, char** argv){
 
     if (argc == 2){
             //print all the movies in ascending alphabetical order of movie names
+            movie.sortMovies();
             movie.printMoviesInOrder();
             return 0;
     }
