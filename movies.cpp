@@ -22,21 +22,27 @@ void Movies::printMoviesInOrder() const {
 
 
 void Movies::printTheBestMoviesWithPrefix(const string &prefix) const {
-    vector<pair<string, double>> temp{};
-    for(const auto &a : movies) {
-        if(a.first.substr(0, prefix.length()) == prefix) {
-            temp.push_back(a);
-            cout << a.first << ", " << fixed << setprecision(1) << a.second << endl;
-        }
-    }
-    cout << endl;
-    if(temp.empty()) {
+    auto it = lower_bound(
+    movies.begin(),
+    movies.end(),
+    prefix,
+    [](const pair<string,double>& movie, const string& pref){
+        return movie.first < pref;
+    });
+    if(it == movies.end() || !(it->first.starts_with(prefix))) {
         cout << "No movies found with prefix " << prefix << endl;
         return;
     }
-    pair<string, double> bestMovie = temp[0];
-    for(const auto &p : temp) {
-        if(p.second > bestMovie.second) bestMovie = p;
+    const double* best = &(it->second);
+    const string* bestName = &(it->first);
+    while(it != movies.end() && it->first.starts_with(prefix)) {
+        cout << it->first << ", " << fixed << setprecision(1) << it->second << endl;
+        if(it->second > *best) {
+            best = &(it->second);
+            bestName = &(it->first);
+        }
+        it++;
     }
-    cout << "Best movie with prefix " << prefix << "is: " << bestMovie.first << " with rating " << bestMovie.second << endl;
+    cout << '\n';
+    cout << "Best movie with prefix " << prefix << " is: " << *bestName << " with rating " << *best;
 }

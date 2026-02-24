@@ -35,6 +35,7 @@ int main(int argc, char** argv){
     }
   
     // Create an object of a STL data-structure to store all the movies
+    Movies movie;
 
     string line, movieName;
     double movieRating;
@@ -44,12 +45,14 @@ int main(int argc, char** argv){
             // to construct your Movie objects
             // cout << movieName << " has rating " << movieRating << endl;
             // insert elements into your data structure
+            movie.insert(movieName, movieRating);
     }
 
     movieFile.close();
 
     if (argc == 2){
             //print all the movies in ascending alphabetical order of movie names
+            movie.printMoviesInOrder();
             return 0;
     }
 
@@ -70,11 +73,14 @@ int main(int argc, char** argv){
     //  For each prefix,
     //  Find all movies that have that prefix and store them in an appropriate data structure
     //  If no movie with that prefix exists print the following message
-    cout << "No movies found with prefix "<<"<replace with prefix>" << endl;
+    for(const auto &a : prefixes) {
+        movie.printTheBestMoviesWithPrefix(a);
+    }
+    //cout << "No movies found with prefix "<<"<replace with prefix>" << endl;
 
     //  For each prefix,
     //  Print the highest rated movie with that prefix if it exists.
-    cout << "Best movie with prefix " << "<replace with prefix>" << " is: " << "replace with movie name" << " with rating " << std::fixed << std::setprecision(1) << "replace with movie rating" << endl;
+    //cout << "Best movie with prefix " << "<replace with prefix>" << " is: " << "replace with movie name" << " with rating " << std::fixed << std::setprecision(1) << "replace with movie rating" << endl;
 
     return 0;
 }
@@ -82,22 +88,13 @@ int main(int argc, char** argv){
 /* 
 Part 3: Time and Space Complexity Analysis
 
-Let n = number of movies, m = number of prefixes, k = number of movies matching a given prefix.
+n = number of movies, m = number of prefixes, k = number of movies matching a given prefix, l = the maximum number of characters in a movie name.
 
-Time Complexity:
-- For each prefix, I scan all n movies to check prefix match: O(n)
-- For each prefix, collecting matching movies takes O(k), finding the highest rating takes O(k)
-- Therefore, per prefix: O(n + k + k) = O(n)
-- For m prefixes: O(m * n)
+I used binary search, which means the time complexity is O(logn).
+For the movies that fit the prefixes, the time complexity is O(k*min(m, l)). The worst case occurs as n = k and m = l, and the time complexity is O(n*l);
+Since I only use three variables with constant spaces, the space complexity is O(1).
+The tradeoff: if I am going to achieve low space xomplexity, I have to give up time complexity. 
 
-Space Complexity:
-- I use a temporary vector to store matching movies: O(k) <= O(n)
-- Other variables use O(1)
-- Overall space complexity: O(n)
-
-Optimized approach (without temporary vector):
-- Keep only the current best movie while scanning: O(1) extra space
-- Time complexity remains O(m * n)
 */
 
 bool parseLine(string &line, string &movieName, double &movieRating) {
