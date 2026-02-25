@@ -22,7 +22,7 @@ void Movies::printMoviesInOrder() const {
     }
 }
 
-/*pair<vector<pair<string,double>>::const_iterator,
+pair<vector<pair<string,double>>::const_iterator,
      vector<pair<string,double>>::const_iterator>
 Movies::getPrefixRange(const string& prefix) const {
 
@@ -44,8 +44,8 @@ Movies::getPrefixRange(const string& prefix) const {
     }
 
     return {start, end};
-}*/
-pair<vector<pair<string,double>>::const_iterator,
+}
+/*pair<vector<pair<string,double>>::const_iterator,
      vector<pair<string,double>>::const_iterator>
 Movies::getPrefixRange(const string& prefix) const {
 
@@ -64,7 +64,7 @@ Movies::getPrefixRange(const string& prefix) const {
         });
 
     return {start, end};
-}
+}*/
 
 vector<pair<string,double>>
 Movies::getPrefixMovies(const string& prefix) const {
